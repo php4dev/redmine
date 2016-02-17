@@ -13,6 +13,23 @@
 
 ActiveRecord::Schema.define(version: 20150809111300) do
 
+  create_table "agile_colors", force: :cascade do |t|
+    t.integer "container_id",   limit: 4
+    t.string  "container_type", limit: 255
+    t.string  "color",          limit: 255
+  end
+
+  add_index "agile_colors", ["container_id"], name: "index_agile_colors_on_container_id", using: :btree
+  add_index "agile_colors", ["container_type"], name: "index_agile_colors_on_container_type", using: :btree
+
+  create_table "agile_ranks", force: :cascade do |t|
+    t.integer "issue_id", limit: 4
+    t.integer "position", limit: 4
+  end
+
+  add_index "agile_ranks", ["issue_id"], name: "index_agile_ranks_on_issue_id", using: :btree
+  add_index "agile_ranks", ["position"], name: "index_agile_ranks_on_position", using: :btree
+
   create_table "attachments", force: :cascade do |t|
     t.integer  "container_id",   limit: 4
     t.string   "container_type", limit: 30
