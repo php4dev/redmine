@@ -16,11 +16,11 @@ default:
 
   # ==== Simple SMTP server at localhost
   #
-   email_delivery:
-     delivery_method: :smtp
-     smtp_settings:
-       address: "localhost"
-       port: 25
+  email_delivery:
+    delivery_method: :smtp
+    smtp_settings:
+      address: "localhost"
+      port: 25
   #
   # ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
   #
