@@ -58,8 +58,8 @@ default:
       port: 587
       domain: "smtp.gmail.com" # 'your.domain.com' for GoogleApps
       authentication: :plain
-      user_name: "kal.bunna@gmail.com"
-      password: "KULeuven"
+      user_name: "rotati.redmine@gmail.com"
+      password: "rotati@redmine"
   #
   # ==== Sendmail command
   #
