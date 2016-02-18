@@ -22,13 +22,14 @@ ActiveRecord::Schema.define(version: 20150809111300) do
   add_index "agile_colors", ["container_id"], name: "index_agile_colors_on_container_id", using: :btree
   add_index "agile_colors", ["container_type"], name: "index_agile_colors_on_container_type", using: :btree
 
-  create_table "agile_ranks", force: :cascade do |t|
-    t.integer "issue_id", limit: 4
-    t.integer "position", limit: 4
+  create_table "agile_data", force: :cascade do |t|
+    t.integer "issue_id",     limit: 4
+    t.integer "position",     limit: 4
+    t.integer "story_points", limit: 4
   end
 
-  add_index "agile_ranks", ["issue_id"], name: "index_agile_ranks_on_issue_id", using: :btree
-  add_index "agile_ranks", ["position"], name: "index_agile_ranks_on_position", using: :btree
+  add_index "agile_data", ["issue_id"], name: "index_agile_data_on_issue_id", using: :btree
+  add_index "agile_data", ["position"], name: "index_agile_data_on_position", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "container_id",   limit: 4
@@ -126,6 +127,29 @@ ActiveRecord::Schema.define(version: 20150809111300) do
   end
 
   add_index "changesets_issues", ["changeset_id", "issue_id"], name: "changesets_issues_ids", unique: true, using: :btree
+
+  create_table "checklist_template_categories", force: :cascade do |t|
+    t.string  "name",     limit: 255
+    t.integer "position", limit: 4,   default: 1
+  end
+
+  create_table "checklist_templates", force: :cascade do |t|
+    t.string  "name",           limit: 255
+    t.integer "project_id",     limit: 4
+    t.integer "category_id",    limit: 4
+    t.integer "user_id",        limit: 4
+    t.boolean "is_public"
+    t.text    "template_items", limit: 65535
+  end
+
+  create_table "checklists", force: :cascade do |t|
+    t.boolean  "is_done",                default: false
+    t.string   "subject",    limit: 255
+    t.integer  "position",   limit: 4,   default: 1
+    t.integer  "issue_id",   limit: 4,                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "comments", force: :cascade do |t|
     t.string   "commented_type", limit: 30,    default: "", null: false
@@ -264,6 +288,11 @@ ActiveRecord::Schema.define(version: 20150809111300) do
   add_index "issue_relations", ["issue_from_id"], name: "index_issue_relations_on_issue_from_id", using: :btree
   add_index "issue_relations", ["issue_to_id"], name: "index_issue_relations_on_issue_to_id", using: :btree
 
+  create_table "issue_status_kanban_states", force: :cascade do |t|
+    t.integer "issue_status_id", limit: 4
+    t.integer "kanban_state_id", limit: 4
+  end
+
   create_table "issue_statuses", force: :cascade do |t|
     t.string  "name",               limit: 30, default: "",    null: false
     t.boolean "is_closed",                     default: false, null: false
@@ -338,6 +367,74 @@ ActiveRecord::Schema.define(version: 20150809111300) do
   add_index "journals", ["journalized_id", "journalized_type"], name: "journals_journalized_id", using: :btree
   add_index "journals", ["journalized_id"], name: "index_journals_on_journalized_id", using: :btree
   add_index "journals", ["user_id"], name: "index_journals_on_user_id", using: :btree
+
+  create_table "kanban_card_journal_details", force: :cascade do |t|
+    t.integer "journal_id", limit: 4
+    t.string  "prop_key",   limit: 255
+    t.integer "old_value",  limit: 4
+    t.integer "new_value",  limit: 4
+  end
+
+  create_table "kanban_card_journals", force: :cascade do |t|
+    t.integer  "kanban_card_id",   limit: 4
+    t.integer  "issue_journal_id", limit: 4
+    t.datetime "created_at"
+  end
+
+  create_table "kanban_cards", force: :cascade do |t|
+    t.integer "issue_id",       limit: 4
+    t.integer "developer_id",   limit: 4
+    t.integer "verifier_id",    limit: 4
+    t.integer "kanban_pane_id", limit: 4
+  end
+
+  create_table "kanban_panes", force: :cascade do |t|
+    t.string  "name",            limit: 32
+    t.integer "kanban_id",       limit: 4,                    null: false
+    t.integer "wip_limit",       limit: 4,     default: 1,    null: false
+    t.integer "kanban_state_id", limit: 4
+    t.boolean "wip_limit_auto",                default: true
+    t.text    "description",     limit: 65535
+    t.integer "role_id",         limit: 4,     default: 1,    null: false
+    t.boolean "in_progress",                   default: true, null: false
+    t.integer "position",        limit: 4,     default: 1
+  end
+
+  create_table "kanban_stages", force: :cascade do |t|
+    t.string "name",        limit: 255
+    t.text   "description", limit: 255
+  end
+
+  create_table "kanban_states", force: :cascade do |t|
+    t.string  "name",        limit: 32,                  null: false
+    t.boolean "is_default",              default: false
+    t.boolean "is_initial",              default: false
+    t.boolean "is_closed",               default: false
+    t.integer "tracker_id",  limit: 4
+    t.integer "position",    limit: 4
+    t.integer "stage_id",    limit: 4,   default: 0
+    t.text    "description", limit: 255
+  end
+
+  create_table "kanban_workflows", force: :cascade do |t|
+    t.integer "old_state_id",    limit: 4
+    t.integer "new_state_id",    limit: 4
+    t.boolean "check_role",                default: false
+    t.boolean "check_wip_limit",           default: true
+    t.integer "role_id",         limit: 4
+    t.integer "kanban_id",       limit: 4, default: 0
+  end
+
+  create_table "kanbans", force: :cascade do |t|
+    t.string   "name",        limit: 32,                   null: false
+    t.integer  "project_id",  limit: 4,                    null: false
+    t.integer  "tracker_id",  limit: 4,                    null: false
+    t.integer  "created_by",  limit: 4
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.boolean  "is_valid",                  default: true
+    t.text     "description", limit: 65535
+  end
 
   create_table "member_roles", force: :cascade do |t|
     t.integer "member_id",      limit: 4, null: false
