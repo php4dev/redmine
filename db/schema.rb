@@ -245,6 +245,12 @@ ActiveRecord::Schema.define(version: 20150809111300) do
 
   add_index "groups_users", ["group_id", "user_id"], name: "groups_users_ids", unique: true, using: :btree
 
+  create_table "holidays", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "end"
+    t.integer  "user_id", limit: 4
+  end
+
   create_table "issue_categories", force: :cascade do |t|
     t.integer "project_id",     limit: 4,  default: 0,  null: false
     t.string  "name",           limit: 30, default: "", null: false
@@ -541,6 +547,12 @@ ActiveRecord::Schema.define(version: 20150809111300) do
   add_index "sprints", ["project_id"], name: "sprints_project", using: :btree
   add_index "sprints", ["user_id"], name: "sprints_user", using: :btree
 
+  create_table "ticket_times", force: :cascade do |t|
+    t.time    "time_begin"
+    t.time    "time_end"
+    t.integer "issue_id",   limit: 4
+  end
+
   create_table "time_entries", force: :cascade do |t|
     t.integer  "project_id",  limit: 4,   null: false
     t.integer  "user_id",     limit: 4,   null: false
@@ -579,6 +591,11 @@ ActiveRecord::Schema.define(version: 20150809111300) do
     t.boolean "is_in_roadmap",                default: true,  null: false
     t.integer "fields_bits",       limit: 4,  default: 0
     t.integer "default_status_id", limit: 4
+  end
+
+  create_table "user_colors", force: :cascade do |t|
+    t.string  "color_code", limit: 255
+    t.integer "user_id",    limit: 4
   end
 
   create_table "user_preferences", force: :cascade do |t|

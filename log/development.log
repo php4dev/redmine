@@ -27695,3 +27695,703 @@ Processing by IssuesController#index as HTML
   [1m[36mRepository Load (0.1ms)[0m  [1mSELECT  `repositories`.* FROM `repositories` WHERE `repositories`.`project_id` = 1 AND (is_default = 1) LIMIT 1[0m
   Rendered plugins/scrum/app/views/scrum_hooks/_scrum_tips.html.erb (0.1ms)
 Completed 200 OK in 54ms (Views: 30.6ms | ActiveRecord: 2.5ms)
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.2ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM schema_migrations
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM schema_migrations[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (0.2ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'agile_colors'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `agile_colors`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'agile_data'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `agile_data`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'attachments'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `attachments`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'auth_sources'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `auth_sources`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'boards'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `boards`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'changes'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `changes`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'changeset_parents'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `changeset_parents`
+  [1m[36m (0.2ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'changesets'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `changesets`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'changesets_issues'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `changesets_issues`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'checklist_template_categories'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `checklist_template_categories`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'checklist_templates'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `checklist_templates`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'checklists'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `checklists`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'comments'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `comments`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'custom_fields'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `custom_fields`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'custom_fields_projects'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `custom_fields_projects`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'custom_fields_roles'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `custom_fields_roles`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'custom_fields_trackers'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `custom_fields_trackers`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'custom_values'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `custom_values`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'documents'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `documents`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'email_addresses'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `email_addresses`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'enabled_modules'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `enabled_modules`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'enumerations'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `enumerations`
+  [1m[36m (0.2ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'groups_users'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `groups_users`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'issue_categories'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `issue_categories`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'issue_relations'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `issue_relations`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'issue_status_kanban_states'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `issue_status_kanban_states`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'issue_statuses'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `issue_statuses`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'issues'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `issues`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'journal_details'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `journal_details`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'journals'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `journals`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_card_journal_details'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_card_journal_details`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_card_journals'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_card_journals`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_cards'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_cards`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_panes'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_panes`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_stages'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_stages`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_states'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_states`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanban_workflows'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanban_workflows`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'kanbans'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `kanbans`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'member_roles'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `member_roles`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'members'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `members`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'messages'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `messages`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'news'
+[0m
+  [1m[35m (0.2ms)[0m  SHOW CREATE TABLE `news`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'open_id_authentication_associations'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `open_id_authentication_associations`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'open_id_authentication_nonces'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `open_id_authentication_nonces`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'pending_efforts'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `pending_efforts`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'projects'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `projects`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'projects_trackers'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `projects_trackers`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'queries'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `queries`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'queries_roles'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `queries_roles`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'repositories'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `repositories`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'roles'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `roles`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'roles_managed_roles'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `roles_managed_roles`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'settings'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `settings`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'sprint_efforts'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `sprint_efforts`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'sprints'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `sprints`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'time_entries'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `time_entries`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'tokens'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `tokens`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'trackers'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `trackers`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'user_preferences'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `user_preferences`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'users'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `users`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'versions'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `versions`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'watchers'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `watchers`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'wiki_content_versions'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `wiki_content_versions`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'wiki_contents'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `wiki_contents`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'wiki_pages'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `wiki_pages`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'wiki_redirects'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `wiki_redirects`
+  [1m[36m (0.1ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'wikis'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `wikis`
+  [1m[36m (0.2ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'redmine_development'
+  AND fk.table_name = 'workflows'
+[0m
+  [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `workflows`
