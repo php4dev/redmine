@@ -31,7 +31,7 @@ module Scrum
 
         def query_sprints(sprints, query, calendar, start)
           date_field = start ? 'sprint_start_date' : 'sprint_end_date'
-          query.sprints.where(["sprints.#{date_field} BETWEEN ? AND ? AND sprints.is_product_backlog IS NOT NULL",
+          query.sprints.where(["sprints.#{date_field} BETWEEN ? AND ? AND sprints.is_product_backlog <> true",
                                calendar.startdt, calendar.enddt]).each do |sprint|
             sprints << {:name => sprint.name,
                         :url => url_for(:controller => :sprints,
