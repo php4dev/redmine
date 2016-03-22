@@ -1,0 +1,41 @@
+# PostgreSQL configuration example
+# development:
+#  adapter: postgresql
+#  database: <%= ENV['DATABASE_NAME'] %>
+#  host: <%= ENV['DATABASE_HOST'] %>
+#  username: <%= ENV['DATABASE_USER'] %>
+#  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+# production:
+#  adapter: postgresql
+#  database: redmine
+#  host: localhost
+#  username: postgres
+#  password: postgres
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  pool: 5
+
+development:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+
+test:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME_TEST'] %>
+
+staging:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>
+
+production:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+
