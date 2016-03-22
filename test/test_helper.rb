@@ -22,8 +22,6 @@ if ENV["COVERAGE"]
   SimpleCov.start 'rails'
 end
 
-$redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
-
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
@@ -124,7 +122,7 @@ class ActiveSupport::TestCase
   end
 
   def self.ldap_configured?
-    @test_ldap = Net::LDAP.new(:host => $redmine_test_ldap_server, :port => 389)
+    @test_ldap = Net::LDAP.new(:host => '127.0.0.1', :port => 389)
     return @test_ldap.bind
   rescue Exception => e
     # LDAP is not listening
@@ -182,19 +180,13 @@ class ActiveSupport::TestCase
     ActiveRecord::Base.connection.quoted_date(date)
   end
 
-  # Asserts that a new record for the given class is created
-  # and returns it
+	# Asserts that a new record for the given class is created
+	# and returns it
   def new_record(klass, &block)
-    new_records(klass, 1, &block).first
-  end
-
-  # Asserts that count new records for the given class are created
-  # and returns them as an array order by object id
-  def new_records(klass, count, &block)
-    assert_difference "#{klass}.count", count do
+    assert_difference "#{klass}.count" do
       yield
     end
-    klass.order(:id => :desc).limit(count).to_a.reverse
+    klass.order(:id => :desc).first
   end
 
   def assert_save(object)

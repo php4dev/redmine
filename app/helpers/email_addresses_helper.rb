@@ -22,17 +22,17 @@ module EmailAddressesHelper
   # Returns a link to enable or disable notifications for the address
   def toggle_email_address_notify_link(address)
     if address.notify?
-      link_to l(:label_disable_notifications),
+      link_to image_tag('email.png'),
         user_email_address_path(address.user, address, :notify => '0'),
-        :method => :put, :remote => true,
+        :method => :put,
         :title => l(:label_disable_notifications),
-        :class => 'icon-only icon-email'
+        :remote => true
     else
-      link_to l(:label_enable_notifications),
+      link_to image_tag('email_disabled.png'),
         user_email_address_path(address.user, address, :notify => '1'),
-        :method => :put, :remote => true,
+        :method => :put,
         :title => l(:label_enable_notifications),
-        :class => 'icon-only icon-email-disabled'
+        :remote => true
     end
   end
 end

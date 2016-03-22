@@ -1,4 +1,5 @@
-<%= custom_field_title @custom_field %>
+<%= title [l(:label_custom_field_plural), custom_fields_path],
+  l(:label_custom_field_new) %>
 
 <% selected = 0 %>
 <%= form_tag new_custom_field_path, :method => 'get' do %>

@@ -92,12 +92,12 @@ module Redmine
             if field.multiple?
               values = custom_values.select { |v| v.custom_field == field }
               if values.empty?
-                values << custom_values.build(:customized => self, :custom_field => field)
+                values << custom_values.build(:customized => self, :custom_field => field, :value => nil)
               end
               x.value = values.map(&:value)
             else
               cv = custom_values.detect { |v| v.custom_field == field }
-              cv ||= custom_values.build(:customized => self, :custom_field => field)
+              cv ||= custom_values.build(:customized => self, :custom_field => field, :value => nil)
               x.value = cv.value
             end
             x.value_was = x.value.dup if x.value

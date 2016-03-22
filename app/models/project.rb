@@ -38,7 +38,6 @@ class Project < ActiveRecord::Base
   has_many :issues, :dependent => :destroy
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, lambda {order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")}, :dependent => :destroy
-  belongs_to :default_version, :class_name => 'Version'
   has_many :time_entries, :dependent => :destroy
   has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
@@ -111,9 +110,6 @@ class Project < ActiveRecord::Base
     end
   }
   scope :sorted, lambda {order(:lft)}
-  scope :having_trackers, lambda {
-    where("#{Project.table_name}.id IN (SELECT DISTINCT project_id FROM #{table_name_prefix}projects_trackers#{table_name_suffix})")
-  }
 
   def initialize(attributes=nil, *args)
     super
@@ -149,10 +145,7 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).limit(count).
-      order(:created_on => :desc).
-      where("#{table_name}.created_on >= ?", 30.days.ago).
-      to_a
+    visible(user).limit(count).order("created_on DESC").to_a
   end
 
   # Returns true if the project is visible to +user+ or to the current user.
@@ -283,8 +276,8 @@ class Project < ActiveRecord::Base
           raise ActiveRecord::Rollback, "Overriding TimeEntryActivity was not successfully saved"
         else
           self.time_entries.
-            where(:activity_id => parent_activity.id).
-            update_all(:activity_id => project_activity.id)
+            where(["activity_id = ?", parent_activity.id]).
+            update_all("activity_id = #{project_activity.id}")
         end
       end
     end
@@ -336,12 +329,8 @@ class Project < ActiveRecord::Base
   end
 
   def to_param
-    if new_record?
-      nil
-    else
-      # id is used for projects with a numeric identifier (compatibility)
-      @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
-    end
+    # id is used for projects with a numeric identifier (compatibility)
+    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id.to_s : identifier)
   end
 
   def active?
@@ -425,9 +414,9 @@ class Project < ActiveRecord::Base
   def rolled_up_trackers
     @rolled_up_trackers ||=
       Tracker.
-        joins(projects: :enabled_modules).
+        joins(:projects).
+        joins("JOIN #{EnabledModule.table_name} ON #{EnabledModule.table_name}.project_id = #{Project.table_name}.id AND #{EnabledModule.table_name}.name = 'issue_tracking'").
         where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED).
-        where("#{EnabledModule.table_name}.name = ?", 'issue_tracking').
         uniq.
         sorted.
         to_a
@@ -548,7 +537,7 @@ class Project < ActiveRecord::Base
   end
 
   def <=>(project)
-    name.casecmp(project.name)
+    name.downcase <=> project.name.downcase
   end
 
   def to_s
@@ -691,8 +680,7 @@ class Project < ActiveRecord::Base
     'custom_fields',
     'tracker_ids',
     'issue_custom_field_ids',
-    'parent_id',
-    'default_version_id'
+    'parent_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
@@ -911,22 +899,6 @@ class Project < ActiveRecord::Base
       # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
-      end
-      # Reassign version custom field values
-      new_issue.custom_field_values.each do |custom_value|
-        if custom_value.custom_field.field_format == 'version' && custom_value.value.present?
-          versions = Version.where(:id => custom_value.value).to_a
-          new_value = versions.map do |version|
-            if version.project == project
-              self.versions.detect {|v| v.name == version.name}.try(:id)
-            else
-              version.id
-            end
-          end
-          new_value.compact!
-          new_value = new_value.first unless custom_value.custom_field.multiple?
-          custom_value.value = new_value
-        end
       end
       # Reassign the category by name, since names are unique per project
       if issue.category

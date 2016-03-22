@@ -25,8 +25,7 @@ class UserTest < ActiveSupport::TestCase
             :issue_categories, :enumerations, :issues,
             :journals, :journal_details,
             :groups_users,
-            :enabled_modules,
-            :tokens
+            :enabled_modules
 
   include Redmine::I18n
 
@@ -512,7 +511,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_name_format
     assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
-    assert_equal 'Smith, John', @jsmith.name(:lastname_comma_firstname)
+    assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     assert_equal 'J. Smith', @jsmith.name(:firstinitial_lastname)
     assert_equal 'J.-P. Lang', User.new(:firstname => 'Jean-Philippe', :lastname => 'Lang').name(:firstinitial_lastname)
   end
@@ -561,7 +560,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_fields_for_order_statement_should_return_fields_according_user_format_setting
-    with_settings :user_format => 'lastname_comma_firstname' do
+    with_settings :user_format => 'lastname_coma_firstname' do
       assert_equal ['users.lastname', 'users.firstname', 'users.id'],
                    User.fields_for_order_statement
     end

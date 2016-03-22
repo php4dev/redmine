@@ -17,7 +17,6 @@
 
 class WorkflowPermission < WorkflowRule
   validates_inclusion_of :rule, :in => %w(readonly required)
-  validates_presence_of :old_status
   validate :validate_field_name
 
   # Returns the workflow permissions for the given trackers and roles

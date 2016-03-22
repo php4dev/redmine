@@ -275,8 +275,6 @@ function toggleOperator(field) {
     case "y":
     case "o":
     case "c":
-    case "*o":
-    case "!o":
       enableValues(field, []);
       break;
     case "><":
@@ -331,22 +329,16 @@ function showTab(name, url) {
 
 function moveTabRight(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
-  var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
   var tabsWidth = 0;
   var i = 0;
   lis.each(function() {
     if ($(this).is(':visible')) {
-      tabsWidth += $(this).outerWidth(true);
+      tabsWidth += $(this).width() + 6;
     }
   });
-  if (tabsWidth < $(el).parents('div.tabs').first().width() - bw) { return; }
-  $(el).siblings('.tab-left').removeClass('disabled');
+  if (tabsWidth < $(el).parents('div.tabs').first().width() - 60) { return; }
   while (i<lis.length && !lis.eq(i).is(':visible')) { i++; }
-  var w = lis.eq(i).width();
   lis.eq(i).hide();
-  if (tabsWidth - w < $(el).parents('div.tabs').first().width() - bw) {
-    $(el).addClass('disabled');
-  }
 }
 
 function moveTabLeft(el) {
@@ -355,35 +347,25 @@ function moveTabLeft(el) {
   while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
   if (i > 0) {
     lis.eq(i-1).show();
-    $(el).siblings('.tab-right').removeClass('disabled');
-  }
-  if (i <= 1) {
-    $(el).addClass('disabled');
   }
 }
 
 function displayTabsButtons() {
   var lis;
-  var tabsWidth;
+  var tabsWidth = 0;
   var el;
-  var numHidden;
   $('div.tabs').each(function() {
     el = $(this);
     lis = el.find('ul').children();
-    tabsWidth = 0;
-    numHidden = 0;
     lis.each(function(){
       if ($(this).is(':visible')) {
-        tabsWidth += $(this).outerWidth(true);
-      } else {
-        numHidden++;
+        tabsWidth += $(this).width() + 6;
       }
     });
-    var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
-    if ((tabsWidth < el.width() - bw) && (lis.first().is(':visible'))) {
+    if ((tabsWidth < el.width() - 60) && (lis.first().is(':visible'))) {
       el.find('div.tabs-buttons').hide();
     } else {
-      el.find('div.tabs-buttons').show().children('button.tab-left').toggleClass('disabled', numHidden == 0);
+      el.find('div.tabs-buttons').show();
     }
   });
 }
@@ -490,13 +472,10 @@ function randomKey(size) {
   return key;
 }
 
-function updateIssueFrom(url, el) {
+function updateIssueFrom(url) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
-  if (el) {
-    $("#form_update_triggered_by").val($(el).attr('id'));
-  }
   return $.ajax({
     url: url,
     type: 'post',
@@ -635,13 +614,6 @@ function setupAjaxIndicator() {
   });
 }
 
-function setupTabs() {
-  if($('.tabs').length > 0) {
-    displayTabsButtons();
-    $(window).resize(displayTabsButtons);
-  }
-}
-
 function hideOnLoad() {
   $('.hol').hide();
 }
@@ -684,19 +656,8 @@ $(document).ready(function(){
   toggleDisabledInit();
 });
 
-function keepAnchorOnSignIn(form){
-  var hash = decodeURIComponent(self.document.location.hash);
-  if (hash) {
-    if (hash.indexOf("#") === -1) {
-      hash = "#" + hash;
-    }
-    form.action = form.action + hash;
-  }
-  return true;
-}
-
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
 $(document).ready(defaultFocus);
-$(document).ready(setupTabs);
+

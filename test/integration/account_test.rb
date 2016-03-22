@@ -30,47 +30,35 @@ class AccountTest < Redmine::IntegrationTest
     assert_template "my/account"
   end
 
-  def test_login_should_set_session_token
-    assert_difference 'Token.count' do
-      log_user('jsmith', 'jsmith')
-
-      assert_equal 2, session[:user_id]
-      assert_not_nil session[:tk]
-    end
-  end
-
   def test_autologin
     user = User.find(1)
+    Setting.autologin = "7"
     Token.delete_all
 
-    with_settings :autologin => '7' do
-      assert_difference 'Token.count', 2 do
-        # User logs in with 'autologin' checked
-        post '/login', :username => user.login, :password => 'admin', :autologin => 1
-        assert_redirected_to '/my/page'
-      end
-      token = Token.where(:action => 'autologin').order(:id => :desc).first
-      assert_not_nil token
-      assert_equal user, token.user
-      assert_equal 'autologin', token.action
-      assert_equal user.id, session[:user_id]
-      assert_equal token.value, cookies['autologin']
-  
-      # Session is cleared
-      reset!
-      User.current = nil
-      # Clears user's last login timestamp
-      user.update_attribute :last_login_on, nil
-      assert_nil user.reload.last_login_on
-  
-      # User comes back with user's autologin cookie
-      cookies[:autologin] = token.value
-      get '/my/page'
-      assert_response :success
-      assert_template 'my/page'
-      assert_equal user.id, session[:user_id]
-      assert_not_nil user.reload.last_login_on
-    end
+    # User logs in with 'autologin' checked
+    post '/login', :username => user.login, :password => 'admin', :autologin => 1
+    assert_redirected_to '/my/page'
+    token = Token.first
+    assert_not_nil token
+    assert_equal user, token.user
+    assert_equal 'autologin', token.action
+    assert_equal user.id, session[:user_id]
+    assert_equal token.value, cookies['autologin']
+
+    # Session is cleared
+    reset!
+    User.current = nil
+    # Clears user's last login timestamp
+    user.update_attribute :last_login_on, nil
+    assert_nil user.reload.last_login_on
+
+    # User comes back with user's autologin cookie
+    cookies[:autologin] = token.value
+    get '/my/page'
+    assert_response :success
+    assert_template 'my/page'
+    assert_equal user.id, session[:user_id]
+    assert_not_nil user.reload.last_login_on
   end
 
   def test_autologin_should_use_autologin_cookie_name
@@ -81,7 +69,7 @@ class AccountTest < Redmine::IntegrationTest
     Redmine::Configuration.stubs(:[]).with('sudo_mode_timeout').returns(15)
 
     with_settings :autologin => '7' do
-      assert_difference 'Token.count', 2 do
+      assert_difference 'Token.count' do
         post '/login', :username => 'admin', :password => 'admin', :autologin => 1
         assert_response 302
       end
@@ -94,7 +82,7 @@ class AccountTest < Redmine::IntegrationTest
       get '/my/page'
       assert_response :success
 
-      assert_difference 'Token.count', -2 do
+      assert_difference 'Token.count', -1 do
         post '/logout'
       end
       assert cookies['custom_autologin'].blank?
@@ -131,7 +119,7 @@ class AccountTest < Redmine::IntegrationTest
     assert_equal 'Password was successfully updated.', flash[:notice]
 
     log_user('jsmith', 'newpass123')
-    assert_equal false, Token.exists?(token.id), "Password recovery token was not deleted"
+    assert_equal 0, Token.count
   end
 
   def test_user_with_must_change_passwd_should_be_forced_to_change_its_password

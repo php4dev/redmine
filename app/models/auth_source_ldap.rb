@@ -20,16 +20,9 @@ require 'net/ldap/dn'
 require 'timeout'
 
 class AuthSourceLdap < AuthSource
-  NETWORK_EXCEPTIONS = [
-    Net::LDAP::LdapError,
-    Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
-    Errno::EHOSTDOWN, Errno::EHOSTUNREACH,
-    SocketError
-  ]
-
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, :maximum => 60, :allow_nil => true
-  validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_blank => true
+  validates_length_of :account, :account_password, :base_dn, :filter, :maximum => 255, :allow_blank => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
   validates_numericality_of :timeout, :only_integer => true, :allow_blank => true
@@ -52,22 +45,17 @@ class AuthSourceLdap < AuthSource
         return attrs.except(:dn)
       end
     end
-  rescue *NETWORK_EXCEPTIONS => e
+  rescue Net::LDAP::LdapError => e
     raise AuthSourceException.new(e.message)
   end
 
-  # Test the connection to the LDAP
+  # test the connection to the LDAP
   def test_connection
     with_timeout do
       ldap_con = initialize_ldap_con(self.account, self.account_password)
       ldap_con.open { }
-
-      if self.account.present? && !self.account.include?("$login") && self.account_password.present?
-        ldap_auth = authenticate_dn(self.account, self.account_password)
-        raise AuthSourceException.new(l(:error_ldap_bind_credentials)) if !ldap_auth
-      end
     end
-  rescue *NETWORK_EXCEPTIONS => e
+  rescue Net::LDAP::LdapError => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -97,7 +85,7 @@ class AuthSourceLdap < AuthSource
       results << attrs
     end
     results
-  rescue *NETWORK_EXCEPTIONS => e
+  rescue Net::LDAP::LdapError => e
     raise AuthSourceException.new(e.message)
   end
 
@@ -117,7 +105,7 @@ class AuthSourceLdap < AuthSource
     if filter.present?
       Net::LDAP::Filter.construct(filter)
     end
-  rescue Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError
+  rescue Net::LDAP::LdapError
     nil
   end
 
@@ -202,8 +190,7 @@ class AuthSourceLdap < AuthSource
 
   def self.get_attr(entry, attr_name)
     if !attr_name.blank?
-      value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
-      value.to_s.force_encoding('UTF-8')
+      entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
   end
 end

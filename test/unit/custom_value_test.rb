@@ -20,25 +20,15 @@ require File.expand_path('../../test_helper', __FILE__)
 class CustomValueTest < ActiveSupport::TestCase
   fixtures :custom_fields, :custom_values, :users
 
-  def test_new_without_value_should_set_default_value
-    field = CustomField.generate!(:default_value => 'Default string')
+  def test_default_value
+    field = CustomField.find_by_default_value('Default string')
+    assert_not_nil field
 
     v = CustomValue.new(:custom_field => field)
     assert_equal 'Default string', v.value
-  end
 
-  def test_new_with_value_should_not_set_default_value
-    field = CustomField.generate!(:default_value => 'Default string')
-
-    v = CustomValue.new(:custom_field => field, :value => 'String')
-    assert_equal 'String', v.value
-  end
-
-  def test_new_with_nil_value_should_not_set_default_value
-    field = CustomField.generate!(:default_value => 'Default string')
-
-    v = CustomValue.new(:custom_field => field, :value => nil)
-    assert_nil v.value
+    v = CustomValue.new(:custom_field => field, :value => 'Not empty')
+    assert_equal 'Not empty', v.value
   end
 
   def test_sti_polymorphic_association

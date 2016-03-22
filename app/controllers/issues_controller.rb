@@ -79,7 +79,7 @@ class IssuesController < ApplicationController
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
         }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
-        format.csv  { send_data(query_to_csv(@issues, @query, params[:csv]), :type => 'text/csv; header=present', :filename => 'issues.csv') }
+        format.csv  { send_data(query_to_csv(@issues, @query, params), :type => 'text/csv; header=present', :filename => 'issues.csv') }
         format.pdf  { send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf' }
       end
     else
@@ -191,7 +191,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
-        format.html { redirect_back_or_default issue_path(@issue, previous_and_next_issue_ids_params) }
+        format.html { redirect_back_or_default issue_path(@issue) }
         format.api  { render_api_ok }
       end
     else
@@ -354,37 +354,21 @@ class IssuesController < ApplicationController
   private
 
   def retrieve_previous_and_next_issue_ids
-    if params[:prev_issue_id].present? || params[:next_issue_id].present?
-      @prev_issue_id = params[:prev_issue_id].presence.try(:to_i)
-      @next_issue_id = params[:next_issue_id].presence.try(:to_i)
-      @issue_position = params[:issue_position].presence.try(:to_i)
-      @issue_count = params[:issue_count].presence.try(:to_i)
-    else
-      retrieve_query_from_session
-      if @query
-        sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-        sort_update(@query.sortable_columns, 'issues_index_sort')
-        limit = 500
-        issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
-        if (idx = issue_ids.index(@issue.id)) && idx < limit
-          if issue_ids.size < 500
-            @issue_position = idx + 1
-            @issue_count = issue_ids.size
-          end
-          @prev_issue_id = issue_ids[idx - 1] if idx > 0
-          @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
+    retrieve_query_from_session
+    if @query
+      sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
+      sort_update(@query.sortable_columns, 'issues_index_sort')
+      limit = 500
+      issue_ids = @query.issue_ids(:order => sort_clause, :limit => (limit + 1), :include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
+      if (idx = issue_ids.index(@issue.id)) && idx < limit
+        if issue_ids.size < 500
+          @issue_position = idx + 1
+          @issue_count = issue_ids.size
         end
+        @prev_issue_id = issue_ids[idx - 1] if idx > 0
+        @next_issue_id = issue_ids[idx + 1] if idx < (issue_ids.size - 1)
       end
     end
-  end
-
-  def previous_and_next_issue_ids_params
-    {
-      :prev_issue_id => params[:prev_issue_id],
-      :next_issue_id => params[:next_issue_id],
-      :issue_position => params[:issue_position],
-      :issue_count => params[:issue_count]
-    }.reject {|k,v| k.blank?}
   end
 
   # Used by #edit and #update to set some common instance variables
@@ -392,7 +376,7 @@ class IssuesController < ApplicationController
   def update_issue_from_params
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
-      @time_entry.safe_attributes = params[:time_entry]
+      @time_entry.attributes = params[:time_entry]
     end
 
     @issue.init_journal(User.current)
@@ -431,7 +415,6 @@ class IssuesController < ApplicationController
         @copy_attachments = params[:copy_attachments].present? || request.get?
         @copy_subtasks = params[:copy_subtasks].present? || request.get?
         @issue.copy_from(@copy_from, :attachments => @copy_attachments, :subtasks => @copy_subtasks, :link => @link_copy)
-        @issue.parent_issue_id = @copy_from.parent_id
       rescue ActiveRecord::RecordNotFound
         render_404
         return
@@ -444,17 +427,12 @@ class IssuesController < ApplicationController
     @issue.author ||= User.current
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
-    attrs = (params[:issue] || {}).deep_dup
-    if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
-      attrs.delete(:status_id)
+    if attrs = params[:issue].deep_dup
+      if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
+        attrs.delete(:status_id)
+      end
+      @issue.safe_attributes = attrs
     end
-    if action_name == 'new' && params[:form_update_triggered_by] == 'issue_project_id'
-      # Discard submitted version when changing the project on the issue form
-      # so we can use the default version for the new project
-      attrs.delete(:fixed_version_id)
-    end
-    @issue.safe_attributes = attrs
-
     if @issue.project
       @issue.tracker ||= @issue.project.trackers.first
       if @issue.tracker.nil?
@@ -468,7 +446,7 @@ class IssuesController < ApplicationController
     end
 
     @priorities = IssuePriority.active
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, @issue.new_record?)
   end
 
   def parse_params_for_bulk_issue_attributes(params)

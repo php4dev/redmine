@@ -159,7 +159,15 @@ module Redmine
           private :search_tokens_condition
 
           def search_token_match_statement(column, value='?')
-            Redmine::Database.like(column, value)
+            if Redmine::Database.postgresql?
+              if Redmine::Database.postgresql_unaccent?
+                "unaccent(#{column}) ILIKE unaccent(#{value})"
+              else
+                "#{column} ILIKE #{value}"
+              end
+            else
+              "#{column} LIKE #{value}"
+            end
           end
           private :search_token_match_statement
 

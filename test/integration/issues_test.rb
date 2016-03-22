@@ -31,21 +31,17 @@ class IssuesTest < Redmine::IntegrationTest
            :enumerations,
            :custom_fields,
            :custom_values,
-           :custom_fields_trackers,
-           :attachments
+           :custom_fields_trackers
 
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
-
-    get '/projects/ecookbook/issues/new'
+    get '/projects/1/issues/new', :tracker_id => '1'
     assert_response :success
     assert_template 'issues/new'
 
-    issue = new_record(Issue) do
-      post '/projects/ecookbook/issues',
-                                 :issue => { :tracker_id => "1",
-                                             :start_date => "2006-12-26",
+    post '/projects/1/issues', :tracker_id => "1",
+                                 :issue => { :start_date => "2006-12-26",
                                              :priority_id => "4",
                                              :subject => "new test issue",
                                              :category_id => "",
@@ -54,7 +50,10 @@ class IssuesTest < Redmine::IntegrationTest
                                              :due_date => "",
                                              :assigned_to_id => "" },
                                  :custom_fields => {'2' => 'Value for field 2'}
-    end
+    # find created issue
+    issue = Issue.find_by_subject("new test issue")
+    assert_kind_of Issue, issue
+
     # check redirection
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
     follow_redirect!
@@ -79,10 +78,11 @@ class IssuesTest < Redmine::IntegrationTest
     Role.anonymous.remove_permission! :add_issues
     Member.create!(:project_id => 1, :principal => Group.anonymous, :role_ids => [3])
 
-    issue = new_record(Issue) do
+    assert_difference 'Issue.count' do
       post '/projects/1/issues', :tracker_id => "1", :issue => {:subject => "new test issue"}
-      assert_response 302
     end
+    assert_response 302
+    issue = Issue.order("id DESC").first
     assert_equal User.anonymous, issue.author
   end
 
@@ -91,15 +91,15 @@ class IssuesTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
 
-    attachment = new_record(Attachment) do
-      put '/issues/1',
-           :notes => 'Some notes',
-           :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
-      assert_redirected_to "/issues/1"
-    end
+    put '/issues/1',
+         :notes => 'Some notes',
+         :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'), 'description' => 'This is an attachment'}}
+    assert_redirected_to "/issues/1"
 
+    # make sure attachment was saved
+    attachment = Issue.find(1).attachments.find_by_filename("testfile.txt")
+    assert_kind_of Attachment, attachment
     assert_equal Issue.find(1), attachment.container
-    assert_equal 'testfile.txt', attachment.filename
     assert_equal 'This is an attachment', attachment.description
     # verify the size of the attachment stored in db
     #assert_equal file_data_1.length, attachment.filesize
@@ -158,7 +158,7 @@ class IssuesTest < Redmine::IntegrationTest
     end
 
     # Create issue
-    issue = new_record(Issue) do
+    assert_difference 'Issue.count' do
       post '/projects/ecookbook/issues',
         :issue => {
           :tracker_id => '1',
@@ -166,15 +166,13 @@ class IssuesTest < Redmine::IntegrationTest
           :subject => 'Issue with user custom field',
           :custom_field_values => {@field.id.to_s => users.first.id.to_s}
         }
-      assert_response 302
     end
+    issue = Issue.order('id DESC').first
+    assert_response 302
 
     # Issue view
     follow_redirect!
-    assert_select ".cf_#{@field.id}" do
-      assert_select '.label', :text => 'Tester:'
-      assert_select '.value', :text => tester.name
-    end
+    assert_select 'th:contains("Tester:") + td', :text => tester.name
     assert_select 'select[name=?]', "issue[custom_field_values][#{@field.id}]" do
       assert_select 'option', users.size + 1 # +1 for blank value
       assert_select 'option[value=?][selected=selected]', tester.id.to_s, :text => tester.name

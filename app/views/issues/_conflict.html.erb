@@ -11,9 +11,7 @@
         <% end %>
       </ul>
       <% end %>
-      <div class="wiki">
-        <%= textilizable(journal, :notes) unless journal.notes.blank? %>
-      </div>
+      <%= textilizable(journal, :notes) unless journal.notes.blank? %>
     <% end %>
     </div>
   <% end %>

@@ -56,7 +56,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'https://mydomain.foo/issues/1',
-                    "Bug: Cannot print recipes (New)",
+                    "Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -68,7 +68,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be https://mydomain.foo/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'https://mydomain.foo/journals/3/diff',
+                    'https://mydomain.foo/journals/diff/3',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
@@ -97,7 +97,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    "Bug: Cannot print recipes (New)",
+                    "Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -109,7 +109,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be http://mydomain.foo/rdm/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'http://mydomain.foo/rdm/journals/3/diff',
+                    'http://mydomain.foo/rdm/journals/diff/3',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
@@ -167,7 +167,7 @@ class MailerTest < ActiveSupport::TestCase
       # link to a referenced ticket
       assert_select 'a[href=?][title=?]',
                     'http://mydomain.foo/rdm/issues/1',
-                    "Bug: Cannot print recipes (New)",
+                    "Cannot print recipes (New)",
                     :text => '#1'
       # link to a changeset
       assert_select 'a[href=?][title=?]',
@@ -179,7 +179,7 @@ class MailerTest < ActiveSupport::TestCase
                     # should be http://mydomain.foo/rdm/journals/diff/3?detail_id=4
                     # but the Rails 4.2 DOM assertion doesn't handle the ? in the
                     # attribute value
-                    'http://mydomain.foo/rdm/journals/3/diff',
+                    'http://mydomain.foo/rdm/journals/diff/3',
                     'View differences',
                     :text => 'diff'
       # link to an attachment
@@ -663,51 +663,6 @@ class MailerTest < ActiveSupport::TestCase
 
       mail = last_email
       assert mail.bcc.include?('dlopper@somenet.foo')
-    end
-  end
-
-  def test_security_notification
-    set_language_if_valid User.find(1).language
-    with_settings :emails_footer => "footer without link" do
-      User.current.remote_ip = '192.168.1.1'
-      assert Mailer.security_notification(User.find(1), message: :notice_account_password_updated).deliver
-      mail = last_email
-      assert_not_nil mail
-      assert_mail_body_match '192.168.1.1', mail
-      assert_mail_body_match I18n.t(:notice_account_password_updated), mail
-      assert_select_email do
-        assert_select "h1", false
-        assert_select "a", false
-      end
-    end
-  end
-
-  def test_security_notification_should_include_title
-    set_language_if_valid User.find(2).language
-    with_settings :emails_footer => "footer without link" do
-      assert Mailer.security_notification(User.find(2),
-        message: :notice_account_password_updated,
-        title: :label_my_account
-      ).deliver
-      assert_select_email do
-        assert_select "a", false
-        assert_select "h1", :text => I18n.t(:label_my_account)
-      end
-    end
-  end
-
-  def test_security_notification_should_include_link
-    set_language_if_valid User.find(3).language
-    with_settings :emails_footer => "footer without link" do
-      assert Mailer.security_notification(User.find(3),
-      message: :notice_account_password_updated,
-      title: :label_my_account,
-      url: {controller: 'my', action: 'account'}
-      ).deliver
-      assert_select_email do
-        assert_select "h1", false
-        assert_select 'a[href=?]', 'http://mydomain.foo/my/account', :text => I18n.t(:label_my_account)
-      end
     end
   end
 

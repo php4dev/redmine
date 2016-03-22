@@ -142,12 +142,6 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal true, Project.find(1).identifier_frozen?
   end
 
-  def test_to_param_should_be_nil_for_new_records
-    project = Project.new
-    project.identifier = "foo"
-    assert_nil project.to_param
-  end
-
   def test_members_should_be_active_users
     Project.all.each do |project|
       assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
@@ -990,14 +984,5 @@ class ProjectTest < ActiveSupport::TestCase
     p = Project.new
     p.status = Project::STATUS_CLOSED
     assert_include 'closed', p.css_classes.split
-  end
-
-  def test_combination_of_visible_and_uniq_scopes_in_case_anonymous_group_has_memberships_should_not_error
-    project = Project.find(1)
-    member = Member.create!(:project => project, :principal => Group.anonymous, :roles => [Role.generate!])
-    project.members << member
-    assert_nothing_raised do
-      Project.uniq.visible.to_a
-    end
   end
 end

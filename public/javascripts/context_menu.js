@@ -1,6 +1,3 @@
-/* Redmine - project management software
-   Copyright (C) 2006-2016  Jean-Philippe Lang */
-
 var contextMenuObserving;
 var contextMenuUrl;
 
@@ -67,8 +64,6 @@ function contextMenuClick(event) {
       // click is outside the rows
       if (target.is('a') && (target.hasClass('disabled') || target.hasClass('submenu'))) {
         event.preventDefault();
-      } else if (target.is('.toggle-selection')) {
-        // nop
       } else {
         contextMenuUnselectAll();
       }
@@ -151,7 +146,6 @@ function contextMenuLastSelected() {
 }
 
 function contextMenuUnselectAll() {
-  $('input[type=checkbox].toggle-selection').prop('checked', false);
   $('.hascontextmenu').each(function(){
     contextMenuRemoveSelection($(this));
   });
@@ -211,9 +205,18 @@ function contextMenuInit(url) {
 }
 
 function toggleIssuesSelection(el) {
-  var checked = $(this).prop('checked');
-  var boxes = $(this).parents('table').find('input[name=ids\\[\\]]');
-  boxes.prop('checked', checked).parents('tr').toggleClass('context-menu-selection', checked);
+  var boxes = $(el).parents('form').find('input[type=checkbox]');
+  var all_checked = true;
+  boxes.each(function(){ if (!$(this).prop('checked')) { all_checked = false; } });
+  boxes.each(function(){
+    if (all_checked) {
+      $(this).removeAttr('checked');
+      $(this).parents('tr').removeClass('context-menu-selection');
+    } else if (!$(this).prop('checked')) {
+      $(this).prop('checked', true);
+      $(this).parents('tr').addClass('context-menu-selection');
+    }
+  });
 }
 
 function window_size() {
@@ -231,7 +234,3 @@ function window_size() {
   }
   return {width: w, height: h};
 }
-
-$(document).ready(function(){
-  $('input[type=checkbox].toggle-selection').on('change', toggleIssuesSelection);
-});

@@ -9,10 +9,9 @@
         <th></th>
         <% @trackers.each do |tracker| %>
         <th>
-          <%= link_to_function('', "toggleCheckboxesBySelector('input.tracker-#{tracker.id}')",
-                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                               :class => 'icon-only icon-checked') %>
           <%= tracker.name %>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.tracker-#{tracker.id}')",
+                                                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
         </th>
         <% end %>
       </tr>
@@ -27,9 +26,8 @@
       <% Tracker::CORE_FIELDS.each do |field| %>
       <tr class="<%= cycle("odd", "even") %>">
         <td class="name">
-          <%= link_to_function('', "toggleCheckboxesBySelector('input.core-field-#{field}')",
-                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                               :class => 'icon-only icon-checked') %>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.core-field-#{field}')",
+                                                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
           <%= l("field_#{field}".sub(/_id$/, '')) %>
         </td>
         <% @trackers.each do |tracker| %>
@@ -50,9 +48,8 @@
         <% @custom_fields.each do |field| %>
         <tr class="<%= cycle("odd", "even") %>">
           <td class="name">
-            <%= link_to_function('', "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
-                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                 :class => 'icon-only icon-checked') %>
+            <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
+                                                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= field.name %>
           </td>
           <% @trackers.each do |tracker| %>

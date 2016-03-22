@@ -62,14 +62,12 @@ class WatchersController < ApplicationController
   end
 
   def destroy
-    @watched.set_watcher(User.find(params[:user_id]), false)
+    @watched.set_watcher(User.visible.find(params[:user_id]), false)
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
       format.api { render_api_ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def autocomplete_for_user

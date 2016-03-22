@@ -29,13 +29,14 @@ class MailHandler < ActionMailer::Base
 
     options[:issue] ||= {}
 
-    options[:allow_override] ||= []
     if options[:allow_override].is_a?(String)
-      options[:allow_override] = options[:allow_override].split(',')
+      options[:allow_override] = options[:allow_override].split(',').collect(&:strip)
     end
-    options[:allow_override].map! {|s| s.strip.downcase.gsub(/\s+/, '_')}
+    options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     options[:allow_override] << 'project' unless options[:issue].has_key?(:project)
+    # Status overridable by default
+    options[:allow_override] << 'status' unless options[:issue].has_key?(:status)
 
     options[:no_account_notice] = (options[:no_account_notice].to_s == '1')
     options[:no_notification] = (options[:no_notification].to_s == '1')
@@ -54,7 +55,7 @@ class MailHandler < ActionMailer::Base
   def self.safe_receive(*args)
     receive(*args)
   rescue Exception => e
-    logger.error "MailHandler: an unexpected error occurred when receiving email: #{e.message}" if logger
+    logger.error "An unexpected error occurred when receiving email: #{e.message}" if logger
     return false
   end
 
@@ -62,10 +63,10 @@ class MailHandler < ActionMailer::Base
   # Use when receiving emails with rake tasks
   def self.extract_options_from_env(env)
     options = {:issue => {}}
-    %w(project status tracker category priority fixed_version).each do |option|
+    %w(project status tracker category priority).each do |option|
       options[:issue][option.to_sym] = env[option] if env[option]
     end
-    %w(allow_override unknown_user no_permission_check no_account_notice default_group project_from_subaddress).each do |option|
+    %w(allow_override unknown_user no_permission_check no_account_notice default_group).each do |option|
       options[option.to_sym] = env[option] if env[option]
     end
     if env['private']
@@ -91,7 +92,7 @@ class MailHandler < ActionMailer::Base
     @handler_options = options
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
-    if sender_email.casecmp(Setting.mail_from.to_s.strip) == 0
+    if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
       if logger
         logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]"
       end
@@ -176,7 +177,7 @@ class MailHandler < ActionMailer::Base
     end
   rescue ActiveRecord::RecordInvalid => e
     # TODO: send a email to the user
-    logger.error "MailHandler: #{e.message}" if logger
+    logger.error e.message if logger
     false
   rescue MissingInformation => e
     logger.error "MailHandler: missing information from #{user}: #{e.message}" if logger
@@ -240,9 +241,6 @@ class MailHandler < ActionMailer::Base
     issue.safe_attributes = issue_attributes_from_keywords(issue)
     issue.safe_attributes = {'custom_field_values' => custom_field_values_from_keywords(issue)}
     journal.notes = cleaned_up_text_body
-
-    # add To and Cc as watchers before saving so the watchers can reply to Redmine
-    add_watchers(issue)
     add_attachments(issue)
     issue.save!
     if logger
@@ -290,7 +288,7 @@ class MailHandler < ActionMailer::Base
       email.attachments.each do |attachment|
         next unless accept_attachment?(attachment)
         obj.attachments << Attachment.create(:container => obj,
-                          :file => attachment.body.decoded,
+                          :file => attachment.decoded,
                           :filename => attachment.filename,
                           :author => user,
                           :content_type => attachment.mime_type)
@@ -314,13 +312,11 @@ class MailHandler < ActionMailer::Base
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
-    if handler_options[:no_permission_check] || user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
+    if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
-        users = User.active.having_mail(addresses).to_a
-        users -= obj.watcher_users
-        users.each do |u|
-          obj.add_watcher(u)
+        User.active.having_mail(addresses).each do |w|
+          obj.add_watcher(w)
         end
       end
     end
@@ -332,11 +328,8 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        override = options.key?(:override) ?
-          options[:override] :
-          (handler_options[:allow_override] & [attr.to_s.downcase.gsub(/\s+/, '_'), 'all']).present?
-
-        if override && (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
+        if (options[:override] || handler_options[:allow_override].include?(attr.to_s)) &&
+              (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
         elsif !handler_options[:issue][attr].blank?
           handler_options[:issue][attr]
@@ -369,31 +362,11 @@ class MailHandler < ActionMailer::Base
     keyword
   end
 
-  def get_project_from_receiver_addresses
-    local, domain = handler_options[:project_from_subaddress].to_s.split("@")
-    return nil unless local && domain
-    local = Regexp.escape(local)
-
-    [:to, :cc, :bcc].each do |field|
-      header = @email[field]
-      next if header.blank? || header.field.blank? || !header.field.respond_to?(:addrs)
-      header.field.addrs.each do |addr|
-        if addr.domain.to_s.casecmp(domain)==0 && addr.local.to_s =~ /\A#{local}\+([^+]+)\z/
-          if project = Project.find_by_identifier($1)
-            return project
-          end
-        end
-      end
-    end
-    nil
-  end
-
   def target_project
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
-    target = get_project_from_receiver_addresses
-    target ||= Project.find_by_identifier(get_keyword(:project))
+    target = Project.find_by_identifier(get_keyword(:project))
     if target.nil?
       # Invalid project keyword, use the project specified as the default one
       default_project = handler_options[:issue][:project]
@@ -407,17 +380,20 @@ class MailHandler < ActionMailer::Base
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
   def issue_attributes_from_keywords(issue)
+    assigned_to = (k = get_keyword(:assigned_to, :override => true)) && find_assignee_from_keyword(k, issue)
+
     attrs = {
       'tracker_id' => (k = get_keyword(:tracker)) && issue.project.trackers.named(k).first.try(:id),
       'status_id' =>  (k = get_keyword(:status)) && IssueStatus.named(k).first.try(:id),
       'priority_id' => (k = get_keyword(:priority)) && IssuePriority.named(k).first.try(:id),
       'category_id' => (k = get_keyword(:category)) && issue.project.issue_categories.named(k).first.try(:id),
-      'assigned_to_id' => (k = get_keyword(:assigned_to)) && find_assignee_from_keyword(k, issue).try(:id),
-      'fixed_version_id' => (k = get_keyword(:fixed_version)) && issue.project.shared_versions.named(k).first.try(:id),
-      'start_date' => get_keyword(:start_date, :format => '\d{4}-\d{2}-\d{2}'),
-      'due_date' => get_keyword(:due_date, :format => '\d{4}-\d{2}-\d{2}'),
-      'estimated_hours' => get_keyword(:estimated_hours),
-      'done_ratio' => get_keyword(:done_ratio, :format => '(\d|10)?0')
+      'assigned_to_id' => assigned_to.try(:id),
+      'fixed_version_id' => (k = get_keyword(:fixed_version, :override => true)) &&
+                                issue.project.shared_versions.named(k).first.try(:id),
+      'start_date' => get_keyword(:start_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
+      'due_date' => get_keyword(:due_date, :override => true, :format => '\d{4}-\d{2}-\d{2}'),
+      'estimated_hours' => get_keyword(:estimated_hours, :override => true),
+      'done_ratio' => get_keyword(:done_ratio, :override => true, :format => '(\d|10)?0')
     }.delete_if {|k, v| v.blank? }
 
     if issue.new_record? && attrs['tracker_id'].nil?
@@ -430,7 +406,7 @@ class MailHandler < ActionMailer::Base
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
     customized.custom_field_values.inject({}) do |h, v|
-      if keyword = get_keyword(v.custom_field.name)
+      if keyword = get_keyword(v.custom_field.name, :override => true)
         h[v.custom_field.id.to_s] = v.custom_field.value_from_keyword(keyword, customized)
       end
       h
@@ -567,6 +543,25 @@ class MailHandler < ActionMailer::Base
   end
 
   def find_assignee_from_keyword(keyword, issue)
-    Principal.detect_by_keyword(issue.assignable_users, keyword)
+    keyword = keyword.to_s.downcase
+    return nil if keyword.blank?
+
+    assignable = issue.assignable_users
+    assignee = nil
+    assignee ||= assignable.detect {|a|
+                   a.mail.to_s.downcase == keyword ||
+                     a.login.to_s.downcase == keyword
+                 }
+    if assignee.nil? && keyword.match(/ /)
+      firstname, lastname = *(keyword.split) # "First Last Throwaway"
+      assignee ||= assignable.detect {|a|
+                     a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
+                       a.lastname.to_s.downcase == lastname
+                   }
+    end
+    if assignee.nil?
+      assignee ||= assignable.detect {|a| a.name.downcase == keyword}
+    end
+    assignee
   end
 end

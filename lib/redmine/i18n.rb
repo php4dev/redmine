@@ -49,19 +49,11 @@ module Redmine
     end
 
     def l_hours_short(hours)
-      l(:label_f_hour_short, :value => ("%.2f" % hours.to_f))
+      "%.2f h" % hours.to_f
     end
 
-    def ll(lang, str, arg=nil)
-      options = arg.is_a?(Hash) ? arg : {:value => arg}
-      locale = lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" }
-      ::I18n.t(str.to_s, options.merge(:locale => locale))
-    end
-
-    # Localizes the given args with user's language
-    def lu(user, *args)
-      lang = user.try(:language).presence || Setting.default_language
-      ll(lang, *args) 
+    def ll(lang, str, value=nil)
+      ::I18n.t(str.to_s, :value => value, :locale => lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
     def format_date(date)
@@ -71,13 +63,12 @@ module Redmine
       ::I18n.l(date.to_date, options)
     end
 
-    def format_time(time, include_date=true, user=nil)
+    def format_time(time, include_date = true)
       return nil unless time
-      user ||= User.current
       options = {}
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
       time = time.to_time if time.is_a?(String)
-      zone = user.time_zone
+      zone = User.current.time_zone
       local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
     end

@@ -13,21 +13,25 @@ gem "mime-types"
 gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
-gem "roadie-rails"
+gem "loofah", "~> 2.0"
+gem 'htmlentities', '~> 4.3', '>= 4.3.4'
+gem "rspec-rails", "~> 3.4.2"
+gem 'rake', '~> 10.5.0'
+gem 'dotenv-rails', :groups => [:development, :test]
 
 # Request at least nokogiri 1.6.7.2 because of security advisories
 gem "nokogiri", ">= 1.6.7.2"
 
-# Request at least rails-html-sanitizer 1.0.3 because of security advisories 
+# Request at least rails-html-sanitizer 1.0.3 because of security advisories
 gem "rails-html-sanitizer", ">= 1.0.3"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.19.0"
+gem "rbpdf", "~> 1.18.7"
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem "net-ldap", "~> 0.12.0"
+  gem "net-ldap", "~> 0.3.1"
 end
 
 # Optional gem for OpenID authentication

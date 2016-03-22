@@ -146,11 +146,10 @@ zh:
   general_csv_decimal_separator: '.'
   general_csv_encoding: gb18030
   general_pdf_fontname: stsongstdlight
-  general_pdf_monospaced_fontname: stsongstdlight
   general_first_day_of_week: '7'
 
   notice_account_updated: 帐号更新成功
-  notice_account_invalid_credentials: 无效的用户名或密码
+  notice_account_invalid_creditentials: 无效的用户名或密码
   notice_account_password_updated: 密码更新成功
   notice_account_wrong_password: 密码错误
   notice_account_register_done: 帐号创建成功，请使用注册确认邮件中的链接来激活您的帐号。
@@ -554,6 +553,10 @@ zh:
   label_open_issues_plural: 打开
   label_closed_issues: 已关闭
   label_closed_issues_plural: 已关闭
+  label_x_open_issues_abbr_on_total:
+    zero:  0 打开 / %{total}
+    one:   1 打开 / %{total}
+    other: "%{count} 打开 / %{total}"
   label_x_open_issues_abbr:
     zero:  0 打开
     one:   1 打开
@@ -688,6 +691,10 @@ zh:
   label_blocked_by: 被阻挡
   label_precedes: 优先于
   label_follows: 跟随于
+  label_end_to_start: 结束-开始
+  label_end_to_end: 结束-结束
+  label_start_to_start: 开始-开始
+  label_start_to_end: 开始-结束
   label_stay_logged_in: 保持登录状态
   label_disabled: 禁用
   label_show_completed_versions: 显示已完成的版本
@@ -732,7 +739,7 @@ zh:
   label_user_mail_option_selected: "收取选中项目的所有通知..."
   label_user_mail_option_none: "不收取任何通知"
   label_user_mail_option_only_my_events: "只收取我跟踪或参与的项目的通知"
-  label_user_mail_option_only_assigned: "只收取指派给我的"
+  label_user_mail_option_only_assigned: "只收取分配给我的"
   label_user_mail_option_only_owner: 只收取由我创建的
   label_user_mail_no_self_notified: "不要发送对我自己提交的修改的通知"
   label_registration_activation_by_email: 通过邮件认证激活帐号
@@ -934,7 +941,7 @@ zh:
   label_news_comment_added: 添加到新闻的评论
   button_expand_all: 展开所有
   button_collapse_all: 合拢所有
-  label_additional_workflow_transitions_for_assignee: 当用户是问题的指派对象时所允许的问题状态转换
+  label_additional_workflow_transitions_for_assignee: 当用户是问题的分配对象时所允许的问题状态转换
   label_additional_workflow_transitions_for_author: 当用户是问题作者时所允许的问题状态转换
   label_bulk_edit_selected_time_entries: 批量修改选定的时间条目
   text_time_entries_destroy_confirmation: 是否确定要删除选定的时间条目？
@@ -943,8 +950,8 @@ zh:
   label_issue_note_added: 问题备注已添加
   label_issue_status_updated: 问题状态更新
   label_issue_priority_updated: 问题优先级更新
-  label_issues_visibility_own: 用户创建或被指派的问题
-  field_issues_visibility: 问题可见度
+  label_issues_visibility_own: 创建或分配给用户的问题
+  field_issues_visibility: 问题可见
   label_issues_visibility_all: 全部问题
   permission_set_own_issues_private: 设置自己的问题为公开或私有
   field_is_private: 私有
@@ -968,7 +975,7 @@ zh:
   text_git_repository_note: 库中无内容。(e.g. /gitrepo, c:\gitrepo)
   notice_issue_successful_create: 问题 %{id} 已创建。
   label_between: 介于
-  setting_issue_group_assignment: 允许将问题指派给组
+  setting_issue_group_assignment: 允许问题被分配给组
   label_diff: diff
   description_query_sort_criteria_direction: 排序方式
   description_project_scope: 搜索范围
@@ -1049,7 +1056,7 @@ zh:
   field_board_parent: 父论坛
   label_attribute_of_project: 项目 %{name}
   label_attribute_of_author: 作者 %{name}
-  label_attribute_of_assigned_to: 指派给 %{name}
+  label_attribute_of_assigned_to: 分配给 %{name}
   label_attribute_of_fixed_version: 目标版本 %{name}
   label_copy_subtasks: 复制子任务
   label_copied_to: 复制到
@@ -1133,7 +1140,7 @@ zh:
   label_blank_value: 空白
   permission_copy_issues: 复制问题
   error_password_expired: 您的密码已经过期或是管理员要求您修改密码.
-  field_time_entries_visibility: 工时记录可见度
+  field_time_entries_visibility: 工时记录可见性
   setting_password_max_age: 密码有效期
   label_parent_task_attributes: 父问题属性
   label_parent_task_attributes_derived: 从子任务计算导出
@@ -1145,49 +1152,4 @@ zh:
   label_member_management_selected_roles_only: 只限下列角色
   label_password_required: 确认您的密码后继续
   label_total_spent_time: 总体耗时
-  notice_import_finished: 成功导入 %{count} 个项目.
-  notice_import_finished_with_errors: 有 %{count} 个项目无法导入(共计 %{total} 个)
-  error_invalid_file_encoding: 这不是一个有效的 %{encoding} 编码文件
-  error_invalid_csv_file_or_settings: 这不是一个CSV文件或者不符合以下设置
-  error_can_not_read_import_file: 读取导入文件时发生错误
-  permission_import_issues: 问题导入
-  label_import_issues: 问题导入
-  label_select_file_to_import: 选择要导入的文件
-  label_fields_separator: 字段分隔符
-  label_fields_wrapper: 字段包装识别符
-  label_encoding: 编码
-  label_comma_char: 逗号(,)
-  label_semi_colon_char: 分号(;)
-  label_quote_char: 单引号(')
-  label_double_quote_char: 双引号(")
-  label_fields_mapping: 字段映射
-  label_file_content_preview: 文件内容预览
-  label_create_missing_values: 创建缺失的数值
-  button_import: 导入
   field_total_estimated_hours: 预估工时统计
-  label_api: API
-  label_total_plural: 总计
-  label_assigned_issues: 被指派的问题
-  label_field_format_enumeration: 键/值 清单
-  label_f_hour_short: '%{value} 小时'
-  field_default_version: 默认版本
-  error_attachment_extension_not_allowed: 不允许上传此类型 %{extension} 附件
-  setting_attachment_extensions_allowed: 允许上传的附件类型
-  setting_attachment_extensions_denied: 禁止上传的附件类型
-  label_any_open_issues: 任意进行中的问题
-  label_no_open_issues: 任意已关闭的问题
-  label_default_values_for_new_users: 新用户默认值
-  error_ldap_bind_credentials: 无效的LDAP账号或密码
-  setting_sys_api_key: API key
-  setting_lost_password: 忘记密码
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address

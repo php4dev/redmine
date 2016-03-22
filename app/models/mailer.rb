@@ -15,8 +15,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'roadie'
-
 class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
@@ -24,7 +22,6 @@ class Mailer < ActionMailer::Base
   helper :custom_fields
 
   include Redmine::I18n
-  include Roadie::Rails::Automatic
 
   def self.default_url_options
     options = {:protocol => Setting.protocol}
@@ -310,52 +307,12 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_lost_password, Setting.app_title)
   end
 
-  # Notifies user that his password was updated
-  def self.password_updated(user)
-    Mailer.security_notification(user,
-      message: :mail_body_security_notification_change,
-      field: :field_password,
-      title: :button_change_password,
-      url: {controller: 'my', action: 'password'}
-    ).deliver
-  end
-
   def register(token)
     set_language_if_valid(token.user.language)
     @token = token
     @url = url_for(:controller => 'account', :action => 'activate', :token => token.value)
     mail :to => token.user.mail,
       :subject => l(:mail_subject_register, Setting.app_title)
-  end
-
-  def security_notification(recipients, options={})
-    redmine_headers 'Sender' => User.current.login
-    @user = Array(recipients).detect{|r| r.is_a? User }
-    set_language_if_valid(@user.try :language)
-    @message = l(options[:message],
-      field: (options[:field] && l(options[:field])),
-      value: options[:value]
-    )
-    @title = options[:title] && l(options[:title])
-    @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
-    mail :to => recipients,
-      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
-  end
-
-  def settings_updated(recipients, changes)
-    redmine_headers 'Sender' => User.current.login
-    @changes = changes
-    @url = url_for(controller: 'settings', action: 'index')
-    mail :to => recipients,
-      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
-  end
-
-	# Notifies admins about settings changes
-  def self.security_settings_updated(changes)
-    return unless changes.present?
-
-    users = User.active.where(admin: true).to_a
-    Mailer.settings_updated(users, changes).deliver
   end
 
   def test_email(user)

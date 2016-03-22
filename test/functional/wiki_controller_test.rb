@@ -21,7 +21,7 @@ class WikiControllerTest < ActionController::TestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
            :wiki_content_versions, :attachments,
-           :issues, :issue_statuses, :trackers
+           :issues, :issue_statuses
 
   def setup
     User.current = nil
@@ -319,7 +319,7 @@ class WikiControllerTest < ActionController::TestCase
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
-              :comments => 'a' * 1300,  # failure here, comment is too long
+              :comments => 'a' * 300,  # failure here, comment is too long
               :text => 'edited'
             },
             :wiki_page => {

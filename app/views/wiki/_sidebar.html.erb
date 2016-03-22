@@ -1,7 +1,5 @@
 <% if @wiki && @wiki.sidebar -%>
-  <div class="wiki">
-    <%= textilizable @wiki.sidebar.content, :text %>
-  </div>
+  <%= textilizable @wiki.sidebar.content, :text %>
 <% end -%>
 
 <h3><%= l(:label_wiki) %></h3>

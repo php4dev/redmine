@@ -73,7 +73,6 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
-          Mailer.password_updated(@user)
           flash[:notice] = l(:notice_account_password_updated)
           redirect_to signin_path
           return
@@ -103,7 +102,7 @@ class AccountController < ApplicationController
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           # Don't use the param to send the email
-          recipent = user.mails.detect {|e| email.casecmp(e) == 0} || user.mail
+          recipent = user.mails.detect {|e| e.downcase == email.downcase} || user.mail
           Mailer.lost_password(token, recipent).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to signin_path
@@ -123,7 +122,6 @@ class AccountController < ApplicationController
       user_params = params[:user] || {}
       @user = User.new
       @user.safe_attributes = user_params
-      @user.pref.attributes = params[:pref] if params[:pref]
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
@@ -203,7 +201,6 @@ class AccountController < ApplicationController
       # Valid user
       if user.active?
         successful_authentication(user)
-        update_sudo_timestamp! # activate Sudo Mode
       else
         handle_inactive_user(user)
       end
@@ -267,15 +264,11 @@ class AccountController < ApplicationController
 
   def set_autologin_cookie(user)
     token = Token.create(:user => user, :action => 'autologin')
-    secure = Redmine::Configuration['autologin_cookie_secure']
-    if secure.nil?
-      secure = request.ssl?
-    end
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
-      :path => (Redmine::Configuration['autologin_cookie_path'] || RedmineApp::Application.config.relative_url_root || '/'),
-      :secure => secure,
+      :path => (Redmine::Configuration['autologin_cookie_path'] || '/'),
+      :secure => (Redmine::Configuration['autologin_cookie_secure'] ? true : false),
       :httponly => true
     }
     cookies[autologin_cookie_name] = cookie_options
@@ -290,7 +283,7 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
-    flash.now[:error] = l(:notice_account_invalid_credentials)
+    flash.now[:error] = l(:notice_account_invalid_creditentials)
   end
 
   # Register a user for email activation.

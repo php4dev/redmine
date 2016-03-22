@@ -40,9 +40,11 @@ class IssueRelationsController < ApplicationController
   end
 
   def create
-    @relation = IssueRelation.new
+    @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
-    @relation.safe_attributes = params[:relation]
+    if params[:relation] && m = params[:relation][:issue_to_id].to_s.strip.match(/^#?(\d+)$/)
+      @relation.issue_to = Issue.visible.find_by_id(m[1].to_i)
+    end
     @relation.init_journals(User.current)
     saved = @relation.save
 

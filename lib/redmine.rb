@@ -36,6 +36,7 @@ require 'redmine/activity/fetcher'
 require 'redmine/ciphering'
 require 'redmine/codeset_util'
 require 'redmine/field_format'
+require 'redmine/i18n'
 require 'redmine/menu_manager'
 require 'redmine/notifiable'
 require 'redmine/platform'
@@ -60,8 +61,6 @@ require 'redmine/views/builders'
 
 require 'redmine/themes'
 require 'redmine/hook'
-require 'redmine/hook/listener'
-require 'redmine/hook/view_listener'
 require 'redmine/plugin'
 
 Redmine::Scm::Base.add "Subversion"
@@ -105,8 +104,8 @@ Redmine::AccessControl.map do |map|
     map.permission :set_issues_private, {}
     map.permission :set_own_issues_private, {}, :require => :loggedin
     map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new], :attachments => :upload}
-    map.permission :edit_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
-    map.permission :edit_own_issue_notes, {:journals => [:edit, :update]}, :require => :loggedin
+    map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
+    map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :view_private_notes, {}, :read => true, :require => :member
     map.permission :set_notes_private, {}, :require => :member
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
@@ -117,7 +116,6 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issue_watchers, {}, :read => true
     map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
-    map.permission :import_issues, {:imports => [:new, :create, :settings, :mapping, :run, :show]}
   end
 
   map.project_module :time_tracking do |map|

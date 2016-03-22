@@ -147,11 +147,10 @@ cs:
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
   general_pdf_fontname: freesans
-  general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '1'
 
   notice_account_updated: Účet byl úspěšně změněn.
-  notice_account_invalid_credentials: Chybné jméno nebo heslo
+  notice_account_invalid_creditentials: Chybné jméno nebo heslo
   notice_account_password_updated: Heslo bylo úspěšně změněno.
   notice_account_wrong_password: Chybné heslo
   notice_account_register_done: Účet byl úspěšně vytvořen. Pro aktivaci účtu klikněte na odkaz v emailu, který vám byl zaslán.
@@ -555,6 +554,10 @@ cs:
   label_open_issues_plural: otevřené
   label_closed_issues: uzavřený
   label_closed_issues_plural: uzavřené
+  label_x_open_issues_abbr_on_total:
+    zero:  0 otevřených / %{total}
+    one:   1 otevřený / %{total}
+    other: "%{count} otevřených / %{total}"
   label_x_open_issues_abbr:
     zero:  0 otevřených
     one:   1 otevřený
@@ -689,6 +692,10 @@ cs:
   label_blocked_by: blokován
   label_precedes: předchází
   label_follows: následuje
+  label_end_to_start: od konce do začátku
+  label_end_to_end: od konce do konce
+  label_start_to_start: od začátku do začátku
+  label_start_to_end: od začátku do konce
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
   label_show_completed_versions: Zobrazit dokončené verze
@@ -1072,8 +1079,8 @@ cs:
   label_in_the_next_days: v přístích
   label_in_the_past_days: v minulých
   label_attribute_of_user: "%{name} uživatel(e/ky)"
-  text_turning_multiple_off: Jestliže zakážete více hodnot,
-    hodnoty budou smazány za účelem rezervace pouze jediné hodnoty na položku.
+  text_turning_multiple_off: Jestliže zakážete více hodnot, 
+    hodnoty budou smazány za účelem rezervace pouze jediné hodnoty na položku.    
   label_attribute_of_issue: "%{name} úkolu"
   permission_add_documents: Přidat dokument
   permission_edit_documents: Upravit dokumenty
@@ -1085,7 +1092,7 @@ cs:
   field_generate_password: Generovat heslo
   setting_default_projects_tracker_ids: Výchozí fronta pro nové projekty
   label_total_time: Celkem
-  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet.
+  notice_account_not_activated_yet: Neaktivovali jste si dosud Váš účet. 
     Pro opětovné zaslání aktivačního emailu <a href="%{url}">klikněte na tento odkaz</a>, prosím.
   notice_account_locked: Váš účet je uzamčen.
   label_hidden: Skrytý
@@ -1096,8 +1103,8 @@ cs:
   notice_new_password_must_be_different: Nové heslo se musí lišit od stávajícího
   setting_mail_handler_excluded_filenames: Vyřadit přílohy podle jména
   text_convert_available: ImageMagick convert k dispozici (volitelné)
-  label_link: Odkaz
-  label_only: jenom
+  label_link: Odkaz 
+  label_only: jenom 
   label_drop_down_list: rozbalovací seznam
   label_checkboxes: zaškrtávátka
   label_link_values_to: Propojit hodnoty s URL
@@ -1137,7 +1144,7 @@ cs:
   label_blank_value: prázdný
   permission_copy_issues: Kopírovat úkoly
   error_password_expired: Platnost vašeho hesla vypršela a administrátor vás žádá o jeho změnu.
-  field_time_entries_visibility: Viditelnost časových záznamů
+  field_time_entries_visibility: Viditelnost šasového logu
   setting_password_max_age: Změna hesla je vyžadována po
   label_parent_task_attributes: Atributy rodičovského úkolu
   label_parent_task_attributes_derived: Vypočteno z dílčích úkolů
@@ -1149,51 +1156,4 @@ cs:
   label_member_management_selected_roles_only: Pouze tyto role
   label_password_required: Pro pokračování potvrďte vaše heslo
   label_total_spent_time: Celkem strávený čas
-  notice_import_finished: All %{count} items have been imported.
-  notice_import_finished_with_errors: ! '%{count} out of %{total} items could not be
-    imported.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
   field_total_estimated_hours: Total estimated time
-  label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: API klíč
-  setting_lost_password: Zapomenuté heslo
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address

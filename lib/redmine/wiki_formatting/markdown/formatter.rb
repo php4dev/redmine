@@ -128,8 +128,7 @@ module Redmine
             :tables => true,
             :strikethrough => true,
             :superscript => true,
-            :no_intra_emphasis => true,
-            :footnotes => true
+            :no_intra_emphasis => true
           )
         end
       end
