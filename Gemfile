@@ -17,7 +17,7 @@ gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
 gem "loofah", "~> 2.0"
 gem 'honeybadger', '~> 2.0'
-gem 'dotenv-rails', :groups => [:development, :test, :production]
+gem 'dotenv-rails', :groups => [:development, :test]
 
 group :production do
   gem 'pg'
