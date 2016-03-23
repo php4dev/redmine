@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.2.0'
+
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
 end
@@ -15,6 +17,8 @@ gem "rspec-rails",              "~> 3.4.2"
 gem 'rake',                     '~> 10.5.0'
 gem 'honeybadger',              '~> 2.0'
 gem 'aws-ses',                  '~> 0.4.4', require: 'aws/ses'
+ gem 'rails_12factor'
+gem 's3'
 gem "mime-types"
 gem "protected_attributes"
 gem "actionpack-action_caching"
