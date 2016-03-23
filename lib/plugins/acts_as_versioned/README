@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 = acts_as_versioned
 
 This library adds simple versioning to an ActiveRecord module.  ActiveRecord is required.
@@ -25,4 +26,33 @@ Collaboa
 * http://collaboa.techno-weenie.net/repository/browse/acts_as_versioned
 
 Special thanks to Dreamer on ##rubyonrails for help in early testing.  His ServerSideWiki (http://serversidewiki.com) 
+=======
+= acts_as_versioned
+
+This library adds simple versioning to an ActiveRecord module.  ActiveRecord is required.
+
+== Resources
+
+Install
+
+* gem install acts_as_versioned
+
+Rubyforge project
+
+* http://rubyforge.org/projects/ar-versioned
+
+RDocs
+
+* http://ar-versioned.rubyforge.org
+
+Subversion
+
+* http://techno-weenie.net/svn/projects/acts_as_versioned
+
+Collaboa
+
+* http://collaboa.techno-weenie.net/repository/browse/acts_as_versioned
+
+Special thanks to Dreamer on ##rubyonrails for help in early testing.  His ServerSideWiki (http://serversidewiki.com) 
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969
 was the first project to use acts_as_versioned <em>in the wild</em>.

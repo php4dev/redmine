@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 = Redmine
 
 Redmine is a flexible project management web application written using Ruby on Rails framework.
 
 More details can be found in the doc directory or on the official website http://www.redmine.org
+=======
+= Redmine
+
+Redmine is a flexible project management web application written using Ruby on Rails framework.
+
+More details can be found in the doc directory or on the official website http://www.redmine.org
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

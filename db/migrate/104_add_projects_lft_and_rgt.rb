@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class AddProjectsLftAndRgt < ActiveRecord::Migration
   def self.up
     add_column :projects, :lft, :integer
@@ -9,3 +10,16 @@ class AddProjectsLftAndRgt < ActiveRecord::Migration
     remove_column :projects, :rgt
   end
 end
+=======
+class AddProjectsLftAndRgt < ActiveRecord::Migration
+  def self.up
+    add_column :projects, :lft, :integer
+    add_column :projects, :rgt, :integer
+  end
+
+  def self.down
+    remove_column :projects, :lft
+    remove_column :projects, :rgt
+  end
+end
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

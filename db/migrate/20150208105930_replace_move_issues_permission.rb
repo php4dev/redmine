@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class ReplaceMoveIssuesPermission < ActiveRecord::Migration
   def self.up
     Role.all.each do |role|
@@ -17,3 +18,24 @@ class ReplaceMoveIssuesPermission < ActiveRecord::Migration
     raise IrreversibleMigration
   end
 end
+=======
+class ReplaceMoveIssuesPermission < ActiveRecord::Migration
+  def self.up
+    Role.all.each do |role|
+      if role.has_permission?(:edit_issues) && !role.has_permission?(:move_issues)
+        # inserts one ligne per trakcer and status
+        rule = WorkflowPermission.connection.quote_column_name('rule') # rule is a reserved keyword in SQLServer
+        WorkflowPermission.connection.execute(
+          "INSERT INTO #{WorkflowPermission.table_name} (tracker_id, old_status_id, role_id, type, field_name, #{rule})" +
+          " SELECT t.id, s.id, #{role.id}, 'WorkflowPermission', 'project_id', 'readonly'" +
+          " FROM #{Tracker.table_name} t, #{IssueStatus.table_name} s"
+        )
+      end
+    end
+  end
+
+  def self.down
+    raise IrreversibleMigration
+  end
+end
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

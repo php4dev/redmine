@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 From: =?utf-8?b?w4TDpCDDlsO2?= <foo@example.org>
 Subject: foo
 Content-Type: text/plain; charset=utf-8
 
 testing user creation with quoted From-header
+=======
+From: =?utf-8?b?w4TDpCDDlsO2?= <foo@example.org>
+Subject: foo
+Content-Type: text/plain; charset=utf-8
+
+testing user creation with quoted From-header
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

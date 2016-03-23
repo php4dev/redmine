@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 From: John Smith <JSmith@somenet.foo>
 To: "redmine@somenet.foo" <redmine@somenet.foo>
 Subject: This is a test
@@ -12,3 +13,19 @@ sO24v73AtM+02S4=
 
 --_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_--
 
+=======
+From: John Smith <JSmith@somenet.foo>
+To: "redmine@somenet.foo" <redmine@somenet.foo>
+Subject: This is a test
+Content-Type: multipart/alternative;
+  boundary="_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_"
+
+--_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: base64
+
+sO24v73AtM+02S4=
+
+--_c20d9cfa-d16a-43a3-a7e5-71da7877ab23_--
+
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

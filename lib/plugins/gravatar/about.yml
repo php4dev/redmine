@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 author: Scott Woods, West Arete Computing
 summary: View helpers for displaying gravatars.
 homepage: http://github.com/woods/gravatar-plugin/
@@ -5,3 +6,12 @@ plugin: git://github.com/woods/gravatar-plugin.git
 license: MIT
 version: 0.1
 rails_version: 1.0+
+=======
+author: Scott Woods, West Arete Computing
+summary: View helpers for displaying gravatars.
+homepage: http://github.com/woods/gravatar-plugin/
+plugin: git://github.com/woods/gravatar-plugin.git
+license: MIT
+version: 0.1
+rails_version: 1.0+
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

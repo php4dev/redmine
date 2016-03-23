@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 #!/usr/bin/env ruby
 abort "script/rails no longer exists, please use bin/rails instead."
+=======
+#!/usr/bin/env ruby
+abort "script/rails no longer exists, please use bin/rails instead."
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

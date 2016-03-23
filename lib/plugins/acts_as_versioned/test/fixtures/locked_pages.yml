@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 welcome:
   id: 1
   title: Welcome to the weblog
@@ -8,3 +9,15 @@ thinking:
   title: So I was thinking
   lock_version: 24
   type: SpecialLockedPage
+=======
+welcome:
+  id: 1
+  title: Welcome to the weblog
+  lock_version: 24
+  type: LockedPage
+thinking:
+  id: 2
+  title: So I was thinking
+  lock_version: 24
+  type: SpecialLockedPage
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

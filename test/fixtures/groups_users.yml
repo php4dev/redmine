@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 --- 
 groups_users_001: 
   group_id: 10
@@ -5,3 +6,12 @@ groups_users_001:
 groups_users_002: 
   group_id: 11
   user_id: 8
+=======
+--- 
+groups_users_001: 
+  group_id: 10
+  user_id: 8
+groups_users_002: 
+  group_id: 11
+  user_id: 8
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969

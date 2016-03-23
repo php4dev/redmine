@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 #!/usr/bin/env ruby
 abort "script/about no longer exists, please use bin/about instead."
+=======
+#!/usr/bin/env ruby
+abort "script/about no longer exists, please use bin/about instead."
+>>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969
