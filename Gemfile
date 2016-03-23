@@ -14,6 +14,7 @@ gem 'htmlentities',             '~> 4.3', '>= 4.3.4'
 gem "rspec-rails",              "~> 3.4.2"
 gem 'rake',                     '~> 10.5.0'
 gem 'honeybadger',              '~> 2.0'
+gem 'aws-ses',                  '~> 0.4.4', require: 'aws/ses'
 gem "mime-types"
 gem "protected_attributes"
 gem "actionpack-action_caching"
