@@ -1,6 +1,0 @@
----
-<<<<<<< HEAD
-api_key: <%= ENV['HONEYBADGER_API_KEY'] %>
-=======
-api_key: '20c0e723'
->>>>>>> 2ee75c01099103e4f2c5413802b29fed68c39969
