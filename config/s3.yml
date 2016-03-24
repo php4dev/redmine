@@ -4,6 +4,7 @@ production:
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
   folder: 'attachments'
   thumb_folder: 'tmp'
+  cname_bucket: true
 
 development:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
@@ -11,6 +12,7 @@ development:
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
   folder: 'attachments'
   thumb_folder: 'tmp'
+  cname_bucket: true
   # endpoint:
   # secure:
   # private:
