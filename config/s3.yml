@@ -1,0 +1,27 @@
+production:
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
+  region: <%= ENV['AWS_REGION'] %>
+  endpoint: 's3.amazonaws.com'
+  folder: 'attachment'
+  secure: false
+  private: false
+
+# development:
+#   access_key_id:
+#   secret_access_key:
+#   bucket:
+#   folder:
+#   endpoint:
+#   secure:
+#   private:
+#   expires:
+#   proxy:
+#   thumb_folder:
+
+# Uncomment this to run plugin tests with standart redmine script
+# test:
+#   access_key_id:
+#   secret_access_key:
+#   bucket:
