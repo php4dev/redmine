@@ -4,7 +4,7 @@ production:
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
   folder: 'attachments'
   thumb_folder: 'tmp'
-  cname_bucket: true
+  cname_bucket: false
   private: false
   secure: false
   proxy: false
@@ -15,7 +15,7 @@ development:
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
   folder: 'attachments'
   thumb_folder: 'tmp'
-  cname_bucket: true
+  cname_bucket: false
   # endpoint:
   # secure:
   # private:
