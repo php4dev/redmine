@@ -18,7 +18,6 @@ gem "actionpack-xml_parser"
 gem "loofah", "~> 2.0"
 gem 'honeybadger', '~> 2.0'
 gem 'dotenv-rails', :groups => [:development, :test]
-gem 'aws-sdk', '~> 2'
 
 group :production do
   gem 'pg'
