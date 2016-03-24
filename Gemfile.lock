@@ -174,7 +174,7 @@ DEPENDENCIES
   actionpack-action_caching
   actionpack-xml_parser
   activerecord-jdbc-adapter (~> 1.3.2)
-  aws-sdk
+  aws-sdk (~> 2)
   builder (>= 3.0.4)
   capybara
   coderay (~> 1.1.0)
