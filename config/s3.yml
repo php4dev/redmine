@@ -5,6 +5,9 @@ production:
   folder: 'attachments'
   thumb_folder: 'tmp'
   cname_bucket: true
+  private: false
+  secure: false
+  proxy: false
 
 development:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
