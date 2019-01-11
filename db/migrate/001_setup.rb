@@ -195,6 +195,7 @@ class Setup < ActiveRecord::Migration
       t.column "action", :string, :limit => 30, :default => "", :null => false
       t.column "value", :string, :limit => 40, :default => "", :null => false
       t.column "created_on", :datetime, :null => false
+      t.column "updated_on", :datetime
     end
 
     create_table "trackers", :force => true do |t|
